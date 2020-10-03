@@ -1,6 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+
+export default App;
+
 
 function App() {
   return (
@@ -10,6 +14,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <button onClick={BasicAuth}>TEST</button>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -23,4 +28,22 @@ function App() {
   );
 }
 
-export default App;
+
+
+
+async function BasicAuth() {
+    const authString = 'Basic ' + btoa(process.env.REACT_APP_BASIC_LOGIN + ":" + process.env.REACT_APP_BASIC_PASSWORD)
+    console.log(authString)
+    const resp = axios.get('https://cors-anywhere.herokuapp.com/https://res-soap.stage.sixt-payment.com/stationshortlist_2.01.json?kdna=Kehrwieder0420&pwd=fjSK7sooDL&language=en_GB&liso=DE', {
+      // Axios looks for the `auth` option, and, if it is set, formats a
+      // basic auth header for you automatically.
+      headers: {
+        'Authorization': authString
+      }
+    });
+    console.log((await resp).data); // 200
+  }
+
+
+ 
+
